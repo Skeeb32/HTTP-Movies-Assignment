@@ -15,11 +15,11 @@ const MovieForm = props => {
         const id = props.match.params.id;
         if (id) {
             axios
-                .get(`http://localhost:5000/api/mmovies/${id}`)
+                .get(`http://localhost:5000/api/movies/${id}`)
                 .then(res => {
                     setItem(res.data)
                 })
-                .catch(err => console.log(err.res)); 
+                .catch(err => console.log(err.res));
         }
     }, [props.match.params.id]);
 
@@ -35,13 +35,9 @@ const MovieForm = props => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        // make a PUT request to edit the item
         axios
-            .put(`http://localhost:5000/api/${item.id}`, item)
+            .put(`http://localhost:5000/api/movies/${item.id}`, item)
             .then(res => {
-                // res.data ==> full array with updated item
-                // usually APIs return just the updated item, or just the id of the update item - you need to make a new array with all the old items, and replace the updated item with the updated item
-                // const newItemsArr = props.items.map
                 console.log(res.data);
                 props.setUpdate(!props.update);
                 setItem(initialItem);
@@ -51,15 +47,14 @@ const MovieForm = props => {
     };
 
     return (
-        <div>
-            <h2>Update Movie</h2>
-            <form onSubmit={handleSubmit}>
-
+        <div className="form">
+            <h1 style={{ marginBottom: '0', color: 'rgb(89, 95, 99)', marginLeft: '-65px' }}>Movie</h1>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', margin: '20px' }}>
                 <input
                     type="text"
                     name="title"
                     onChange={changeHandler}
-                    placeholder="title"
+                    placeholder="Title"
                     value={item.title}
                 />
 
@@ -75,20 +70,18 @@ const MovieForm = props => {
                     type="text"
                     name="metascore"
                     onChange={changeHandler}
-                    placeholder="metascore"
+                    placeholder="Metascore"
                     value={item.metascore}
                 />
 
                 <input
-                    type="test"
+                    type="text"
                     name="stars"
                     onChange={changeHandler}
                     placeholder="Stars"
                     value={item.stars}
                 />
-                <div className="baseline" />
-
-                <button className="md-button form-button">Update Movie</button>
+                <button className="md-button form-button">Update</button>
             </form>
         </div>
     );
